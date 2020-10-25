@@ -14,14 +14,19 @@ struct Stack {
     List* list;
 };
 
+// Initialize a stack from a given key.
 Stack* makeStack(int key);
 
+// Determine if a given stack is empty.
 bool isEmpty(Stack* st);
 
+// Count the number of elements of a given queue.
 int count(Stack *st);
 
+// Push a key into a given stack.
 void push(Stack* &st, int key);
 
+// Pop an element out of a given stack, return the key’s value.
 int pop(Stack* &st);
 
 #endif

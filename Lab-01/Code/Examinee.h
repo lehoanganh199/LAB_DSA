@@ -31,10 +31,13 @@ struct Examinee {
     float foreignLanguage;  // math + literature + foreignLanguage + naturalScience + socialScience.
 };
 
+// Split and assign the information of one candidate from `lineInfo` string.
 Examinee readExaminee(const string &lineInfo);
 
+// Read the information of a list of candidates.
 vector<Examinee> readExamineeList(const string &filename);
 
+// Write the total score of candidates to file.
 void writeTotal(const vector<Examinee> &examineeList, const string outFilename);
 
 #endif
