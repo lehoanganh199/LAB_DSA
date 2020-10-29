@@ -18,14 +18,12 @@ int GCD(int a, int b);
 bool isPalindrome(int a[], int n);
 
 // Find the Factorial of a number.
-bool isPalindromeRecursion(int a[], int left, int right);
-
-// Count the digits of a given number.
 int Factorial(int n);
 
-// Find the nth Fibonacci number using by the following formula: F(n) = F(n − 1) + F(n − 2).
+// Count the digits of a given number.
 int countDigit(int n);
 
+// Find the nth Fibonacci number using by the following formula: F(n) = F(n − 1) + F(n − 2).
 int Fib(int n);
 
 #endif

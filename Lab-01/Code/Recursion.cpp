@@ -25,18 +25,12 @@ int GCD(int a, int b) {
 }
 
 bool isPalindrome(int a[], int n) {
-    if (n < 0 || a == nullptr)
+    if (n <= 0)
         return false;
-    
-    return isPalindromeRecursion(a, 0, n - 1);
-}
 
-bool isPalindromeRecursion(int a[], int left, int right) {
-    if (left == right || left == right + 1)
-        return a[left] == a[right];
-    if (a[left] != a[right])
+    if (a[0] != a[n - 1])
         return false;
-    return isPalindromeRecursion(a, left + 1, right - 1);
+    return isPalindrome(a + 1, n - 1);
 }
 
 int Factorial(int n) {
