@@ -1,0 +1,19 @@
+- Ideal: Cho một dãy số gồm n số a[1], a[2], .., a[n].
++ Bất đầu chạy từ cuối mảng đến phần tử thứ 2 (a[n] -> a[2]).
++ Mỗi lượt chạy sẽ so sánh phần tử tại vị trí i - 1 và i, nếu 2 phần tử này là nghịch thế (a[i - 1] > a[i] đối với thứ tự tăng dần) thì sẽ hoán vị hai giá trị cho nhau.
++ Kết thúc lượt duyệt này thì phần tử có giá trị nhỏ nhất sẽ được đẩy lên vị trí đầu của dãy số.
++ Tiếp tục lặp lại với dãy số gồm n - 1 phần tử sau cùng (vì a[1] đã được xếp đúng vị trí sau lượt duyệt đầu tiên) cho đến khi dãy số chỉ còn phần tử cuối cùng là a[n].
++ Khi đó dãy a[1], a[2], ..., a[n] đã được sắp xếp theo thứ tự tăng dần.
+
+- Algorithm:
++ Bước 1: Cho mảng a[1...n] và i = 1.
++ Bước 2:
+    + Nếu i nhỏ hơn hoặc bằng n - 1 => Tiếp tục bước kế tiếp.
+    + Ngược lại => Chuyển sang bước 5.
++ Bước 3: Cho j = n.
++ Bước 4: 
+    + Nếu j lớn hơn i.
+        + So sánh cặp phần tử a[j - 1] và a[j] => Nếu a[j - 1] > a[j] (nghịch thế) => hoán vị giá trị của hai phần tử a[j - 1] và a[j].
+        + Giảm j xuống 1 giá trị và quay lại bước 4.
+    + Ngược lại => Tăng giá trị i lên thêm 1 và quay lại bước 2.
++ Bước 5: Dừng chương trình.

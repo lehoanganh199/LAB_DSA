@@ -1,0 +1,22 @@
+- Ideal: 
++ Chia mảng ban đầu thành 2 mảng con a[1...i] và a[(i + 1)...n] (gọi là mảng b). Và mảng a[1...i] đã có thứ tự (tăng dần).
++ Chọn một phần tử từ mảng b. Để tiện ta chọn a[i + 1] (b[0]). Và chèn vào mảng a[1...i] sao cho nó vẫn giữ nguyên thứ tự (tăng dần).
++ Tìm vị trí k trong đoạn [1, i] thoả a[k - 1] <= a[i + 1] < a[k], có 2 trường hợp xảy ra:
+    + Nếu tồn tại k: dời tất cả phần tử trong đoạn [k, i] về sau (sang phải) một vị trí. Và sau đó cập nhật lại a[k] bằng với a[i + 1].
+    + Ngược lại: các phần tử trong đoạn từ [1, i + 1] đã có thứ tự.
++ Tiếp tục thực hiện cho đến khi chèn hết phần tử từ mảng b sang mảng con đã có thứ tự ban đầu.
+
+
+- Algorithm:
++ Bước 1: Cho mảng a[1...n] và i = 2.
++ Bước 2:
+    + Nếu i nhỏ hơn hoặc bằng n => Tiếp tục bước kế tiếp.
+    + Ngược lại => Chuyển đến bước 6.
++ Bước 3: Cho x = a[i] và k = i - 1.
++ Bước 4:
+    + Nếu k lớn hơn hoặc bằng 1 và a[k] > x.
+        + Dời phần tử a[k] về sau một đơn vị (a[k + 1] = a[k]).
+        + Giảm k xuống 1 giá trị và quay lại bước 4.
+    + Ngược lại => Chuyển sang bước 5.
++ Bước 5: Cập nhật giá trị a[k + 1] bằng với x (a[k + 1] = x) và quay lại bước 2.
++ Bước 6: Dừng chương trình.
