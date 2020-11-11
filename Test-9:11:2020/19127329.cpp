@@ -2,9 +2,13 @@
 #include <string>
 #include <fstream>
 #include <cstring>
+#include <sstream>
 
 #define INPUT_FILE_NAME     "input.txt"
 #define OUTPUT_FILE_NAME    "output.txt"
+
+#define CHICKEN             'C'
+#define DUCK                'D'
 
 using namespace std;
 
@@ -20,118 +24,185 @@ struct AnimalList {
     Animal* pLast;
 };
 
-void readAnimal(ifstream&, Animal&);
+
+bool isChicken(char type);
+bool isDuck(char type);
+bool isValidTypeAnimal(char type);
+bool isValidAnimal(Animal*);
+
+bool readAnimal(ifstream&, Animal&);
 void readAnimalList(const string &, AnimalList*&);
-void saveAnimal(ofstream&, Animal*);
-void questionD(const string &, AnimalList*);
+void outputAnimal(ostream&, Animal*);
+
 Animal* makeNode(char, const string&, float);
+Animal* toPointer(const Animal&);
+
 void add(AnimalList*&, const Animal&);
 void addHead(AnimalList*&, const Animal&);
+void addMiddle(AnimalList*&, const Animal&); // between chicken and duck.
 void addTail(AnimalList*&, const Animal&);
-void removeAllList(AnimalList*&);
-void printAnimal(Animal*);
-void printAnimalList(AnimalList*);
-bool isValidAnimal(Animal*);
-void printAnimalInvalid(AnimalList*);
 
-int main(int argc, char *argv[]) {
+void removeList(AnimalList*&);
+
+void printAnimalList(AnimalList*); // question b.
+void printAnimalInvalid(AnimalList*); // question c.
+void questionD(const string &, AnimalList*);
+
+
+int main(int argc, char* argv[]) {
     AnimalList* animalList = nullptr;
     readAnimalList(INPUT_FILE_NAME, animalList);
 
-    if (strcmp(argv[1], "-b") == 0) {
-        //cout << "Chua lam duoc" << endl;
+    if (strcmp(argv[1], "-b") == 0)
         printAnimalList(animalList);
-    } else if (strcmp(argv[1], "-c") == 0) {
-        //cout << "Chua lam duoc" << endl;
+    else if (strcmp(argv[1], "-c") == 0)
         printAnimalInvalid(animalList);
-    } else if (strcmp(argv[1], "-d") == 0) {
-        cout << "Chua lam duoc" << endl;
-        //questionD(OUTPUT_FILE_NAME, animalList);
-    }
+    else if (strcmp(argv[1], "-d") == 0)
+        questionD(OUTPUT_FILE_NAME, animalList);
 
-    removeAllList(animalList);
+    removeList(animalList);
 
     return 0;
 }
 
-void readAnimal(ifstream &fin, Animal &animal) {
-    fin >> animal.Type;
-    fin >> animal.ID;
-    fin >> animal.Weight;
+
+bool isChicken(char type) {
+    return type == CHICKEN;
+}
+
+bool isDuck(char type) {
+    return type == DUCK;
+}
+
+bool isValidTypeAnimal(char type) {
+    return isChicken(type) || isDuck(type);
+}
+
+bool isValidAnimal(Animal* animal) {
+    if (animal == nullptr)
+        return false;
+
+    if ((isValidTypeAnimal(animal->Type == false)) || animal->ID.length() != 3)
+        return false;
+    if (animal->Weight < 0)
+        return false;
+    if (isChicken(animal->Type) && (animal->Weight <= 1 || animal->Weight >= 3.5))
+        return false;
+    if (isDuck(animal->Type) && (animal->Weight <= 1.5 || animal->Weight >= 5.5))
+        return false;
+
+    return true;
+}
+
+bool readAnimal(ifstream &fin, Animal &animal) {
+    stringstream ss;
+    string data;
+
+    getline(fin, data);
+    if (data == "\n" || data.empty())
+        return false;
+
+    ss << data;
+
+    ss >> animal.Type
+        >> animal.ID
+        >> animal.Weight;
+
+    return true;
 }
 
 void readAnimalList(const string &filename, AnimalList*& animalList) {
     ifstream fin(filename);
 
     if (fin) {
+        if (animalList != nullptr)
+            delete animalList;
+
         animalList = new AnimalList;
 
         while (!fin.eof()) {
             Animal animal;
-            readAnimal(fin, animal);
+            
+            if (readAnimal(fin, animal) == false);
+                break;
+
             add(animalList, animal);
         }
+
+        fin.close();
     }
 }
 
-void saveAnimal(ofstream& fout, Animal* animal) {
+void outputAnimal(ostream &outDev, Animal* animal) {
     if (animal != nullptr) {
-        fout << animal->Type << " "
+        outDev << animal->Type << " "
             << animal->ID << " "
             << animal->Weight;
     }
 }
 
-void questionD(const string &filename, AnimalList* animalList) {
-    if (animalList != nullptr) {
-        ofstream fout(filename);
-
-        if (fout) {
-            for (Animal* p = animalList->pFirst; p; p = p->pNext) {
-                if (isValidAnimal(p)) {
-                    if ((p->Type == 'C' && p->Weight > 2.5) || (p->Type == 'D' && p->Weight > 3)) {
-                        printAnimal(p);
-                        cout << endl;
-                    }
-       
-                } else {
-                    saveAnimal(fout, p);
-                    
-                    if (p->pNext != nullptr)
-                        fout << endl;
-                }
-            }
-        }
-    }
-}
-
 Animal* makeNode(char type, const string &id, float weight) {
     Animal* animal = new Animal;
-    animal->Type = type;
-    animal->ID = id;
-    animal->Weight = weight;
-    animal->pNext = nullptr;
+    
+    if (animal != nullptr) {
+        animal->Type = type;
+        animal->ID = id;
+        animal->Weight = weight;
+        animal->pNext = nullptr;
+    }
 
     return animal;
 }
 
+Animal* toPointer(const Animal &animal) {
+    return makeNode(animal.Type, animal.ID, animal.Weight);
+}
+
 void add(AnimalList* &animalList, const Animal &animal) {
-    if (animal.Type == 'C')
+    switch (animal.Type) {
+    case CHICKEN:
         addHead(animalList, animal);
-    else 
+        break;
+    case DUCK:
         addTail(animalList, animal);
+        break;
+    default:
+        addMiddle(animaList, animal);
+        break;
+    }
 }
 
 void addHead(AnimalList* &animalList, const Animal &animal) {
     if (animalList == nullptr)
         animalList = new AnimalList;
 
-    Animal* p = makeNode(animal.Type, animal.ID, animal.Weight);
-    if (animalList->pFirst == nullptr) {
-        animalList->pFirst = animalList->pLast = p;
-    } else {
-        p->pNext = animalList->pFirst;
-        animalList->pFirst = p;
+    Animal* p = toPointer(animal);
+
+    p->pNext = animalList->pFirst;
+    animalList->pFirst = p->pNext;
+
+    if (animalList->pLast == nullptr)
+        animalList->pLast = animalList->pFirst;
+}
+
+void addMiddle(AnimalList* &animalList, const Animal &animal) {
+    if (animalList == nullptr || animalList->pFirst == nullptr)
+        addHead(animalList, animal);
+    else {
+        if (isDuck(animalList->pFirst->Type))
+            addHead(animalList, animal);
+        else if (isChicken(animalList->pLast->Type))
+            addTail(animalList, animal);
+        else {
+            Animal* p = animalList->pFirst;
+
+            while (p->pNext != nullptr && isDuck(p->pNext->Type) == false)
+                p = p->pNext;
+
+            Animal* next = p->pNext;
+            p->pNext = toPointer(animal);
+            p->pNext->pNext = next;
+        }
     }
 }
 
@@ -139,7 +210,7 @@ void addTail(AnimalList* &animalList, const Animal &animal) {
     if (animalList == nullptr)
         animalList = new AnimalList;
 
-    Animal* p = makeNode(animal.Type, animal.ID, animal.Weight);
+    Animal* p = toPointer(animal);
     if (animalList->pFirst == nullptr) {
         animalList->pFirst = animalList->pLast = p;
     } else {
@@ -148,7 +219,7 @@ void addTail(AnimalList* &animalList, const Animal &animal) {
     }
 }
 
-void removeAllList(AnimalList* &animalList) {
+void removeList(AnimalList* &animalList) {
     if (animalList != nullptr) {
         Animal* p = animalList->pFirst;
 
@@ -163,35 +234,11 @@ void removeAllList(AnimalList* &animalList) {
     }
 }
 
-void printAnimal(Animal* animal) {
-    if (animal != nullptr) {
-        cout << animal->Type << " "
-            << animal->ID << " "
-            << animal->Weight;
-    }
-}
-
 void printAnimalList(AnimalList* animalList) {
     for (Animal* p = animalList->pFirst; p; p = p->pNext) {
-        printAnimal(p);
+        outputAnimal(cout, p);
         cout << endl;
     }
-}
-
-bool isValidAnimal(Animal* animal) {
-    if (animal == nullptr)
-        return false;
-
-    if ((animal->Type != 'C' && animal->Type != 'D') || animal->ID.length() != 3)
-        return false;
-    if (animal->Weight < 0)
-        return false;
-    if (animal->Type == 'C' && (animal->Weight <= 1 || animal->Weight >= 3.5))
-        return false;
-    if (animal->Type == 'D' && (animal->Weight <= 1.5 || animal->Weight >= 5.5))
-        return false;
-
-    return true;
 }
 
 void printAnimalInvalid(AnimalList* animalList) {
@@ -199,5 +246,27 @@ void printAnimalInvalid(AnimalList* animalList) {
         for (Animal* p = animalList->pFirst; p; p = p->pNext)
             if (!isValidAnimal(p))
                 cout << p->Type << " " << p->ID << endl;
+    }
+}
+
+void questionD(const string &filename, AnimalList* animalList) {
+    if (animalList != nullptr) {
+        ofstream fout(filename);
+
+        if (fout) {
+            for (Animal* p = animalList->pFirst; p; p = p->pNext) {
+                if (isValidAnimal(p)) {
+                    if ((isChicken(p->Type) && p->Weight > 2.5) || (isDuck(p->Type) && p->Weight > 3)) {
+                        outputAnimal(cout, p);
+                        cout << endl;
+                    } else {
+                        outputAnimal(fout, p);
+                        fout << endl;
+                    }
+                }
+            }
+
+            fout.close();
+        }
     }
 }
