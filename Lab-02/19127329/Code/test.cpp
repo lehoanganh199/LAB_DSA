@@ -85,7 +85,7 @@ int main() {
                 cout << "- Algorithm : " << algorithms[k] << endl;
                 cout << "- Data Size : " << dataSize[j] << endl;
                 cout << "- Data Order: " << dataOrder[i] << endl;
-                cout << "- Time      : " << fixed << setprecision(9) << runTime << "ms" << endl;
+                cout << "- Time      : " << fixed << setprecision(9) << runTime << "s" << endl;
                 cout << "----------------------------------------" << endl;
                 
                 delete[] a;
