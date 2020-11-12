@@ -60,7 +60,7 @@ int main() {
     vector<int> dataSize { 3000, 10000, 30000, 100000, 300000 };
     vector<string> dataOrder { "Random", "Sorted", "Reverse", "Nearly" };
     vector<string> algorithms { 
-        "Selection Sort"};/*, "Insertion Sort", "Bubble Sort",
+        /*"Selection Sort", "Insertion Sort", */"Bubble Sort"};/*,
         "Heap Sort", "Merge Sort", "Quick Sort", "Radix Sort" 
     };*/
 
