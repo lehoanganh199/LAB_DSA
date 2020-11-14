@@ -20,3 +20,10 @@
     + Ngược lại => Chuyển sang bước 5.
 + Bước 5: Cập nhật giá trị a[k + 1] bằng với x (a[k + 1] = x) và quay lại bước 2.
 + Bước 6: Dừng chương trình.
+
+
+- Time complexity: 
+    + Best case: O(n).
+    + Average case: O(n^2).
+    + Worst case: O(n^2).
+- Space complexity: O(1).

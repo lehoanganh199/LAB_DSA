@@ -17,3 +17,7 @@ Tiếp tục với n - 1 phần tử còn lại. Và đến khi còn lại 1 ph�
     + Nếu i khác pos thì hoán vị hai giá trị a[i] và a[pos].
     + Tăng i lên thêm 1 và quay lại bước 2.
 + Bước 6: Dừng chương trình.
+
+
+- Time complexity: O(n^2).
+- Space complexity: O(1).

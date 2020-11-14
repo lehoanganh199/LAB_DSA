@@ -17,3 +17,7 @@
         + Giảm j xuống 1 giá trị và quay lại bước 4.
     + Ngược lại => Tăng giá trị i lên thêm 1 và quay lại bước 2.
 + Bước 5: Dừng chương trình.
+
+
+- Time complexity: O(n^2).
+- Space complexity: O(1).
