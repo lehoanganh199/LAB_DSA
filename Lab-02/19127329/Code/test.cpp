@@ -87,31 +87,33 @@ int main() {
             //     cout << "- Data Order: " << dataOrder[i] << endl;
             //     cout << "- Time      : " << fixed << setprecision(9) << runTime << "s" << endl;
             //     cout << "----------------------------------------" << endl;
-                
+
             //     delete[] a;
             // }
 
-            // a = new int[dataSize[j]];
+            // Heap sort.
+             a = new int[dataSize[j]];
 
-            // if (a == nullptr) {
-            //     cout << "Error: not enough memory." << endl;
-            //     j = dataSize.size();
-            //     i = dataOrder.size();
-            //     break;
-            // }
+             if (a == nullptr) {
+                 cout << "Error: not enough memory." << endl;
+                 j = dataSize.size();
+                 i = dataOrder.size();
+                 break;
+             }
 
-            // GenerateData(a, dataSize[j], i);
+             GenerateData(a, dataSize[j], i);
 
-            // double runTime = sortAndMeasureTime(a, dataSize[j], HEAP);
-            // cout << "----------------------------------------" << endl;
-            // cout << "- Algorithm : " << "Heap sort" << endl;
-            // cout << "- Data Size : " << dataSize[j] << endl;
-            // cout << "- Data Order: " << dataOrder[i] << endl;
-            // cout << "- Time      : " << fixed << setprecision(9) << runTime << "s" << endl;
-            // cout << "----------------------------------------" << endl;
-                
-            // delete[] a;
+             double runTime = sortAndMeasureTime(a, dataSize[j], HEAP);
+             cout << "----------------------------------------" << endl;
+             cout << "- Algorithm : " << "Heap sort" << endl;
+             cout << "- Data Size : " << dataSize[j] << endl;
+             cout << "- Data Order: " << dataOrder[i] << endl;
+             cout << "- Time      : " << fixed << setprecision(9) << runTime << "s" << endl;
+             cout << "----------------------------------------" << endl;
 
+             delete[] a;
+
+            // Radix sort.
             // a = new int[dataSize[j]];
 
             // if (a == nullptr) {
@@ -130,7 +132,7 @@ int main() {
             // cout << "- Data Order: " << dataOrder[i] << endl;
             // cout << "- Time      : " << fixed << setprecision(9) << runTime << "s" << endl;
             // cout << "----------------------------------------" << endl;
-                
+
             // delete[] a;
         }
     }

@@ -1,7 +1,11 @@
 #include "Sort.h"
 
+// Declare some additional functions.
 void mergeArray(int a[], int left, int mid, int right);
 void MergeSortImp(int a[], int left, int right);
+void shift(int a[], int left, int right);
+void createHeap(int a[], int n);
+// End of declaration.
 
 void SelectionSort(int a[], int n) {
     int pos;
@@ -51,7 +55,7 @@ void shift(int a[], int left, int right) {
         if (j < right && a[j + 1] > a[j])
             ++j;
 
-        if (x > a[j])
+        if (x >= a[j])
             break;
         
         a[i] = a[j];
@@ -63,11 +67,11 @@ void shift(int a[], int left, int right) {
 }
 
 void createHeap(int a[], int n) {
-    int left = n / 2;
+    int i = n / 2;
 
-    while (left >= 0) {
-        shift(a, left, n - 1);
-        --left;
+    while (i >= 0) {
+        shift(a, i, n - 1);
+        --i;
     }
 }
 
