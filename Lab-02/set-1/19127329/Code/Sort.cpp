@@ -11,7 +11,6 @@ void shift(int a[], int left, int right);
 void createHeap(int a[], int n);
 void QuickSortImp(int a[], int left, int right);
 int findMax(int a[], int n);
-void findMaxAndMin(int a[], int n, int &maxElement, int &minElement);
 // End of declaration.
 
 
@@ -110,18 +109,6 @@ int findMax(int a[], int n) {
 
     return maxValue;
 }
-
-void findMaxAndMin(int a[], int n, int &maxElement, int &minElement) {
-    maxElement = a[0];
-    minElement = a[0];
-
-    for (int i = 1; i < n; i++) {
-        if (maxElement < a[i])
-            maxElement = a[i];
-        else if (minElement > a[i])
-            minElement = a[i];
-    }
-}
 // End of implementation.
 
 
@@ -158,63 +145,11 @@ void InsertionSort(int a[], int n) {
     }
 }
 
-void BinaryInsertionSort(int a[], int n) {
-    int x;
-
-    for (int i = 1; i < n; i++) {
-        x = a[i];
-
-        int left = 0;
-        int right = i - 1;
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            
-            if (a[mid] <= x)
-                left = mid + 1;
-            else 
-                right = mid - 1;
-        }
-
-        for (int j = i - 1; j > left; j--)
-            a[j] = a[j - 1];
-
-        a[left] = x;
-    }
-}
-
 void BubbleSort(int a[], int n) {
     for (int i = 0; i < n - 1; i++)
         for (int j = n - 1; j > i; j--)
             if (a[j - 1] > a[j])
                 swap(a[j - 1], a[j]);
-}
-
-void ShakerSort(int a[], int n) {
-    int left = 1;
-    int right = n - 1;
-    int lastPosition = 0;
-
-    do {
-        for (int i = right; i >= left; i--)
-            if (a[i - 1] > a[i]) {
-                swap(a[i - 1], a[i]);
-                lastPosition = i;
-            }
-
-        left = lastPosition + 1;
-
-        for (int i = left; i <= right; i++)
-            if (a[i - 1] > a[i]) {
-                swap(a[i - 1], a[i]);
-                lastPosition = i;
-            }
-
-        right = lastPosition - 1;
-    } while (left <= right);
-}
-
-void ShellSort(int a[], int n) {
-
 }
 
 void HeapSort(int a[], int n) {
@@ -235,10 +170,6 @@ void MergeSort(int a[], int n) {
 void QuickSort(int a[], int n) {
     if (n > 1)
         QuickSortImp(a, 0, n - 1);
-}
-
-void CoutingSort(int a[], int n) {
-
 }
 
 void RadixSort(int a[], int n) {
@@ -275,49 +206,4 @@ void RadixSort(int a[], int n) {
     for (int i = 0; i < 10; i++)
         delete[] classify[i];
     delete[] classify;
-}
-
-// don't optimize.
-void FlashSort(int a[], int n) {
-    // find max and min.
-    int maxElement;
-    int minElement;
-    findMaxAndMin(a, n, maxElement, minElement);
-
-    // count the number of classes.
-    int countClasses = 4;
-
-    // separate classes.
-    int* classes = new int[maxElement + 1];
-    int* size = new int[countClasses] {0};
-
-    for (int i = 0; i < n; i++) {
-        int k = ((countClasses - 1) * (a[i] - minElement)) / (maxElement - minElement);
-        classes[a[i]] = k;
-        ++size[k];
-    }
-
-    int* sizeCurrent = new int[countClasses] {0};
-    int* dummy = new int[n];
-    for (int i = 0; i < n; i++) {
-        int index = sizeCurrent[classes[a[i]]]++;
-        for (int j = 0; j < classes[a[i]]; j++)
-            index += size[j];
-    
-        dummy[index] = a[i];
-    }
-
-    int offset = 0;
-    for (int i = 0; i < countClasses; i++) {
-        SelectionSort(dummy + offset, size[i]);
-        offset += size[i];
-    }
-
-    for (int i = 0; i < n; i++)
-        a[i] = dummy[i];
-
-    delete[] dummy;
-    delete[] sizeCurrent;
-    delete[] classes;
-    delete[] size;
 }
