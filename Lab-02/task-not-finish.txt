@@ -1,0 +1,4 @@
+- determine and insert figure stable/unstable of binary insertion and shaker sort.
+- comment the four case.
+- calculate the complexity of shell sort.
+- check out report.

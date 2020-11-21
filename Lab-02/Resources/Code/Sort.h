@@ -10,7 +10,7 @@ void ShellSort(int a[], int n);
 void HeapSort(int a[], int n);
 void MergeSort(int a[], int n);
 void QuickSort(int a[], int n);
-void CoutingSort(int a[], int n);
+void CountingSort(int a[], int n);
 void RadixSort(int a[], int n);
 void FlashSort(int a[], int n);
 

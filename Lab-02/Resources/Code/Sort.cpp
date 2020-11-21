@@ -160,22 +160,23 @@ void InsertionSort(int a[], int n) {
 
 void BinaryInsertionSort(int a[], int n) {
     int x;
+    int left, right, mid;
 
     for (int i = 1; i < n; i++) {
         x = a[i];
 
-        int left = 0;
-        int right = i - 1;
+        left = 0;
+        right = i - 1;
         while (left <= right) {
-            int mid = (left + right) / 2;
+            mid = (left + right) / 2;
             
-            if (a[mid] <= x)
-                left = mid + 1;
-            else 
+            if (x < a[mid])
                 right = mid - 1;
+            else 
+                left = mid + 1;
         }
 
-        for (int j = i - 1; j > left; j--)
+        for (int j = i; j > left; j--)
             a[j] = a[j - 1];
 
         a[left] = x;
@@ -192,7 +193,7 @@ void BubbleSort(int a[], int n) {
 void ShakerSort(int a[], int n) {
     int left = 1;
     int right = n - 1;
-    int lastPosition = 0;
+    int lastPosition = right;
 
     do {
         for (int i = right; i >= left; i--)
@@ -214,7 +215,30 @@ void ShakerSort(int a[], int n) {
 }
 
 void ShellSort(int a[], int n) {
+    //
+    int k = (int)log2(n) - 1;
+    int* lengths = new int[k];
+    lengths[k - 1] = 1;
 
+    for (int i = k - 2; i >= 0; i--)
+        lengths[i] = (2 * lengths[i + 1]) + 1;
+
+    
+    //
+    for (int step = 0; step < k; step++) {
+        int length = lengths[step];
+
+        for (int i = length; i < n; i++) {
+            int x = a[i];
+            int j = i - length;
+            while (j >= 0 && a[j] > x) {
+                a[j + length] = a[j];
+                j -= length;
+            }
+
+            a[j + length] = x;
+        }
+    }
 }
 
 void HeapSort(int a[], int n) {
@@ -237,8 +261,31 @@ void QuickSort(int a[], int n) {
         QuickSortImp(a, 0, n - 1);
 }
 
-void CoutingSort(int a[], int n) {
+void CountingSort(int a[], int n) {
+    int maxElement;
+    int minElement;
+    findMaxAndMin(a, n, maxElement, minElement);
 
+    int m = maxElement - minElement + 1;
+    int* count = new int[m] {0};
+
+    for (int i = 0; i < n; i++)
+        ++count[a[i] - minElement];
+    
+    for (int i = 1; i < m; i++)
+        count[i] += count[i - 1];
+
+    int* dummy = new int[n]; 
+    for (int i = n - 1; i >= 0; i--) {
+        --count[a[i] - minElement];
+        dummy[count[a[i] - minElement]] = a[i]; 
+    }
+
+    for (int i = 0; i < n; i++)
+        a[i] = dummy[i];
+
+    delete[] dummy;
+    delete[] count;
 }
 
 void RadixSort(int a[], int n) {
@@ -247,14 +294,14 @@ void RadixSort(int a[], int n) {
     int temp = 1;
 
     int* size = new int[10]{0};
-    int** classify = new int*[10];
+    int** bins = new int*[10];
     for (int i = 0; i < 10; i++)
-        classify[i] = new int[n];
+        bins[i] = new int[n];
 
     while (maxCountDigit > 0) {
         for (int i = 0; i < n; i++) {
             int digit = (a[i] / temp) % 10;
-            classify[digit][size[digit]++] = a[i];
+            bins[digit][size[digit]++] = a[i];
         }
 
         int j = 0;
@@ -263,7 +310,7 @@ void RadixSort(int a[], int n) {
             while (size[j] == 0 || index[j] == size[j]) 
                 ++j;
 
-            a[i] = classify[j][index[j]++];
+            a[i] = bins[j][index[j]++];
         }
         delete[] index;
 
@@ -273,11 +320,10 @@ void RadixSort(int a[], int n) {
 
     delete[] size;
     for (int i = 0; i < 10; i++)
-        delete[] classify[i];
-    delete[] classify;
+        delete[] bins[i];
+    delete[] bins;
 }
 
-// don't optimize.
 void FlashSort(int a[], int n) {
     // find max and min.
     int maxElement;
@@ -285,32 +331,31 @@ void FlashSort(int a[], int n) {
     findMaxAndMin(a, n, maxElement, minElement);
 
     // count the number of classes.
-    int countClasses = 4;
+    int countClasses = int(0.42 * n);
 
-    // separate classes.
-    int* classes = new int[maxElement + 1];
-    int* size = new int[countClasses] {0};
+    int* classes = new int[maxElement - minElement + 1];
+    int* firstPositions = new int[countClasses + 1] {0};
 
     for (int i = 0; i < n; i++) {
         int k = ((countClasses - 1) * (a[i] - minElement)) / (maxElement - minElement);
-        classes[a[i]] = k;
-        ++size[k];
+        classes[a[i] - minElement] = k;
+        ++firstPositions[k + 1];
     }
+
+    for (int i = 2; i < countClasses; i++)
+        firstPositions[i] += firstPositions[i - 1];
 
     int* sizeCurrent = new int[countClasses] {0};
     int* dummy = new int[n];
     for (int i = 0; i < n; i++) {
-        int index = sizeCurrent[classes[a[i]]]++;
-        for (int j = 0; j < classes[a[i]]; j++)
-            index += size[j];
-    
+        int index = firstPositions[classes[a[i] - minElement]] + sizeCurrent[classes[a[i] - minElement]];
+        ++sizeCurrent[classes[a[i] - minElement]];
         dummy[index] = a[i];
     }
 
-    int offset = 0;
     for (int i = 0; i < countClasses; i++) {
-        SelectionSort(dummy + offset, size[i]);
-        offset += size[i];
+        int length = firstPositions[i + 1] - firstPositions[i];
+        InsertionSort(dummy + firstPositions[i], length);
     }
 
     for (int i = 0; i < n; i++)
@@ -319,5 +364,5 @@ void FlashSort(int a[], int n) {
     delete[] dummy;
     delete[] sizeCurrent;
     delete[] classes;
-    delete[] size;
+    delete[] firstPositions;
 }
