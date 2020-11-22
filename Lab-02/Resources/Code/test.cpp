@@ -1,15 +1,12 @@
-#include <iostream>
 #include "Sort.h"
 #include "DataGenerator.h"
 #include <iomanip>
 #include <vector>
 
-using namespace std;
-
-enum DataOrder { RANDOM, SORTED, REVERSE, NEARLY };
+enum DataOrder { RANDOM, SORTED, REVERSED, NEARLY };
 enum SortAlgorithms { 
     SELECTION, INSERTION, BINARY_INSERTION, BUBBLE, SHAKER,
-    SHELL, HEAP, MERGE, COUNTING, QUICK, RADIX, FLASH 
+    SHELL, HEAP, MERGE, QUICK, COUNTING, RADIX, FLASH 
 };
 
 double sortAndMeasureTime(int* &a, int n, int type) {
@@ -57,14 +54,14 @@ double sortAndMeasureTime(int* &a, int n, int type) {
         MergeSort(a, n);
         runTime = (double) (clock() - start) / CLOCKS_PER_SEC;
         break;
-    case COUNTING:
-        start = clock();
-        CountingSort(a, n);
-        runTime = (double) (clock() - start) / CLOCKS_PER_SEC;
-        break;
     case QUICK:
         start = clock();
         QuickSort(a, n);
+        runTime = (double) (clock() - start) / CLOCKS_PER_SEC;
+        break;
+    case COUNTING:
+        start = clock();
+        CountingSort(a, n);
         runTime = (double) (clock() - start) / CLOCKS_PER_SEC;
         break;
     case RADIX:
@@ -86,60 +83,39 @@ double sortAndMeasureTime(int* &a, int n, int type) {
 
 int main() {
     vector<int> dataSize { 3000, 10000, 30000, 100000, 300000 };
-    vector<string> dataOrder { "Random", "Sorted", "Reverse", "Nearly" };
+    vector<string> dataOrder { "Random", "Sorted", "Reversed", "Nearly" };
     vector<string> algorithms {
         "Selection Sort", "Insertion Sort", "Binary Insertion Sort", "Bubble Sort",
-        "Shaker Sort", "Shell Sort", "Heap Sort", "Merge Sort", "Counting Sort", "Quick Sort",
-        "Radix Sort", "Flash Sort"
+        "Shaker Sort", "Shell Sort", "Heap Sort", "Merge Sort", "Quick Sort",
+        "Counting Sort", "Radix Sort", "Flash Sort"
     };
 
     int* a = nullptr;
 
     for (int i = 0; i < dataOrder.size(); i++) {
         for (int j = 0; j < dataSize.size(); j++) {
-            // for (int k = 0; k < algorithms.size(); k++) {
-            //     a = new int[dataSize[j]];
+            for (int k = 0; k < algorithms.size(); k++) {
+                a = new int[dataSize[j]];
 
-            //     if (a == nullptr) {
-            //         cout << "Error: not enough memory." << endl;
-            //         j = dataSize.size();
-            //         i = dataOrder.size();
-            //         break;
-            //     }
+                if (a == nullptr) {
+                    cout << "Error: not enough memory." << endl;
+                    j = dataSize.size();
+                    i = dataOrder.size();
+                    break;
+                }
 
-            //     GenerateData(a, dataSize[j], i);
+                GenerateData(a, dataSize[j], i);
 
-            //     double runTime = sortAndMeasureTime(a, dataSize[j], k);
-            //     cout << "----------------------------------------" << endl;
-            //     cout << "- Algorithm : " << algorithms[k] << endl;
-            //     cout << "- Data Size : " << dataSize[j] << endl;
-            //     cout << "- Data Order: " << dataOrder[i] << endl;
-            //     cout << "- Time      : " << fixed << setprecision(9) << runTime << "s" << endl;
-            //     cout << "----------------------------------------" << endl;
+                double runTime = sortAndMeasureTime(a, dataSize[j], k);
+                cout << "----------------------------------------" << endl;
+                cout << "- Algorithm : " << algorithms[k] << endl;
+                cout << "- Data Size : " << dataSize[j] << endl;
+                cout << "- Data Order: " << dataOrder[i] << endl;
+                cout << "- Time      : " << fixed << setprecision(9) << runTime << "s" << endl;
+                cout << "----------------------------------------" << endl;
 
-            //     delete[] a;
-            // }
-
-            a = new int[dataSize[j]];
-
-            if (a == nullptr) {
-                cout << "Error: not enough memory." << endl;
-                j = dataSize.size();
-                i = dataOrder.size();
-                break;
+                delete[] a;
             }
-
-            GenerateData(a, dataSize[j], i);
-
-            double runTime = sortAndMeasureTime(a, dataSize[j], FLASH);
-            cout << "----------------------------------------" << endl;
-            cout << "- Algorithm : " << algorithms[FLASH] << endl;
-            cout << "- Data Size : " << dataSize[j] << endl;
-            cout << "- Data Order: " << dataOrder[i] << endl;
-            cout << "- Time      : " << fixed << setprecision(9) << runTime << "s" << endl;
-            cout << "----------------------------------------" << endl;
-
-            delete[] a;
         }
     }
 
