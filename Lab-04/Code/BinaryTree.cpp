@@ -1,66 +1,66 @@
 #include "BinarySearchTree.h"
 #include <queue>
 
-// Initialize a NODE from a given value.
-NODE* createNode(int data) {
-	NODE* p = new NODE;
+// Initialize a Node from a given value.
+Node* createNode(int data) {
+	Node* p = new Node;
 	p->key = data;
-	p->p_left = p->p_right = nullptr;
+	p->left = p->right = nullptr;
 
     return p;
 }
 
 // Pre-order Traversal.
-void NLR(NODE* pRoot) {
-	if (pRoot) {
-		cout << pRoot->key << " ";
-		NLR(pRoot->p_left);
-		NLR(pRoot->p_right);
+void NLR(Node* root) {
+	if (root) {
+		cout << root->key << " ";
+		NLR(root->left);
+		NLR(root->right);
 	}
 }
 
 // In-order Traversal.
-void LNR(NODE* pRoot) {
-	if (pRoot) {
-        LNR(pRoot->p_left);
-		cout << pRoot->key << " ";
-        LNR(pRoot->p_right);
+void LNR(Node* root) {
+	if (root) {
+        LNR(root->left);
+		cout << root->key << " ";
+        LNR(root->right);
 	}
 }
 
 // Post-order Traversal.
-void LRN(NODE* pRoot) {
-	if (pRoot) {
-        LRN(pRoot->p_left);
-        LRN(pRoot->p_right);
-		cout << pRoot->key << " ";
+void LRN(Node* root) {
+	if (root) {
+        LRN(root->left);
+        LRN(root->right);
+		cout << root->key << " ";
 	}
 }
 
 // Print all nodes of a specify level of Binary Tree.
-void specifyLevelOrder(NODE* pRoot, int level) {
-	if (pRoot == nullptr)
+void specifyLevelOrder(Node* root, int level) {
+	if (root == nullptr)
 		return;
 
 	if (level == 0)
-		cout << pRoot->key << " ";
+		cout << root->key << " ";
 	else {
-		specifyLevelOrder(pRoot->p_left, level - 1);
-		specifyLevelOrder(pRoot->p_right, level - 1);
+		specifyLevelOrder(root->left, level - 1);
+		specifyLevelOrder(root->right, level - 1);
 	}
 }
 
 // Level-order Traversal.
 // Print all value of nodes from left to right by each level.
 // Reference: https://www.geeksforgeeks.org/level-order-tree-traversal/
-void LevelOrder(NODE* pRoot) {
+void LevelOrder(Node* root) {
     // Uses the function to print each specify level.
     // Time complexity: .
     // Space complexity: O(n).
 
-//    int level = Level(pRoot);
+//    int level = Level(root);
 //    for (int i = 0; i <= level; i++)
-//        specifyLevelOrder(pRoot, i);
+//        specifyLevelOrder(root, i);
 
 
 	// -------------------------------
@@ -70,80 +70,80 @@ void LevelOrder(NODE* pRoot) {
     // Time complexity: O(n).
     // Space complexity: O(n).
 
-     if (pRoot == nullptr)
+     if (root == nullptr)
          return;
 
-     queue<NODE*> q;
+     queue<Node*> q;
 
-     q.push(pRoot);
+     q.push(root);
      while (!q.empty()) {
-         NODE* node = q.front();
+         Node* node = q.front();
          cout << node->key << " ";
          q.pop();
 
-         if (node->p_left != nullptr)
-             q.push(node->p_left);
+         if (node->left != nullptr)
+             q.push(node->left);
 
-         if (node->p_right != nullptr)
-             q.push(node->p_right);
+         if (node->right != nullptr)
+             q.push(node->right);
      }
 }
 
 // Calculate the level of a given Binary Tree.
-int Level(NODE* pRoot) {
-	return Height(pRoot) - 1;
+int Level(Node* root) {
+	return Height(root) - 1;
 }
 
 // Calculate the height of a given Binary Tree.
-int Height(NODE* pRoot) {
-	if (pRoot == nullptr)
+int Height(Node* root) {
+	if (root == nullptr)
 		return 0;
 
-	return 1 + max(Height(pRoot->p_left), Height(pRoot->p_right));
+	return 1 + max(Height(root->left), Height(root->right));
 }
 
-// Count the number of NODE from a given Binary Tree.
-int countNode(NODE* pRoot) {
-	if (pRoot == nullptr)
+// Count the number of Node from a given Binary Tree.
+int countNode(Node* root) {
+	if (root == nullptr)
 		return 0;
 
-	return 1 + countNode(pRoot->p_left) + countNode(pRoot->p_right);
+	return 1 + countNode(root->left) + countNode(root->right);
 }
 
-// Calculate the total value of all NODEs from a given Binary Tree.
-int sumNode(NODE* pRoot) {
-	if (pRoot == nullptr)
+// Calculate the total value of all Nodes from a given Binary Tree.
+int sumNode(Node* root) {
+	if (root == nullptr)
 		return 0;
 
-	return pRoot->key + sumNode(pRoot->p_left) + sumNode(pRoot->p_right);
+	return root->key + sumNode(root->left) + sumNode(root->right);
 }
 
-// Calculate the height of a NODE with given value. (return -1 if value not exist)
+// Calculate the height of a Node with given value. (return -1 if value not exist)
 // The number of nodes in the longest path to node leaf.
-int heightNode(NODE* pRoot, int value) {
-	NODE* p = Search(pRoot, value);
+int heightNode(Node* root, int value) {
+	Node* p = Search(root, value);
 	return p ? Height(p) : -1;
 }
 
-// Calculate the level of a given NODE.
-int Level(NODE* pRoot, NODE* p) {
-	if (p == nullptr || Search(pRoot, p->key) == nullptr)
+// Calculate the level of a given Node.
+int Level(Node* root, Node* p) {
+	if (p == nullptr || Search(root, p->key) == nullptr)
         return -1;
 
-    if (pRoot->key == p->key)
+    if (root->key == p->key)
         return 0;
-    if (pRoot->key > p->key)
-        return 1 + Level(pRoot->p_left, p);
+    if (root->key > p->key)
+        return 1 + Level(root->left, p);
     else
-        return 1 + Level(pRoot->p_right, p);
+        return 1 + Level(root->right, p);
 }
 
 // Count the number leaves from a given Binary Tree.
-int countLeaf(NODE* pRoot) {
-	if (pRoot == nullptr)
+int countLeaf(Node* root) {
+	if (root == nullptr)
 		return 0;
-	if (pRoot->p_left == nullptr && pRoot->p_right == nullptr)
+	if (root->left == nullptr && root->right == nullptr)
 		return 1;
 
-	return countLeaf(pRoot->p_left) + countLeaf(pRoot->p_right);
+	return countLeaf(root->left) + countLeaf(root->right);
 }

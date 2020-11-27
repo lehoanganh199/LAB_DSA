@@ -3,33 +3,33 @@
 
 #include "BinaryTree.h"
 
-// Find and return a NODE with given value from a given Binary Search Tree.
-NODE* Search(NODE* pRoot, int x);
+// Find and return a Node with given value from a given Binary Search Tree.
+Node* Search(Node* root, int x);
 
-// Add a NODE with given value into a given Binary Search Tree.
-void Insert(NODE* &pRoot, int x);
+// Add a Node with given value into a given Binary Search Tree.
+void Insert(Node* &root, int x);
 
-// Remove a NODE with given value from a given Binary Search Tree.
-void Remove(NODE* &pRoot, int x);
+// Remove a Node with given value from a given Binary Search Tree.
+void Remove(Node* &root, int x);
 
 // Initialize a Binary Search Tree from a given array.
-NODE* createTree(int a[], int n);
+Node* createTree(int a[], int n);
 
 // Completely remove a given Binary Search Tree.
-void removeTree(NODE* &pRoot);
+void removeTree(Node* &root);
 
-// Count the number of NODE from a given Binary Search Tree which key value
+// Count the number of Node from a given Binary Search Tree which key value
 // is less than a given value.
-int countLess(NODE* pRoot, int x);
+int countLess(Node* root, int x);
 
-// Count the number of NODE from a given Binary Search Tree which key value
+// Count the number of Node from a given Binary Search Tree which key value
 // is greater than a given value.
-int countGreater(NODE* pRoot, int x);
+int countGreater(Node* root, int x);
 
 // Determine if a given Binary Tree is Binary Search Tree.
-bool isBST(NODE* pRoot);
+bool isBST(Node* root);
 
 // Determine if a given Binary Tree is a Full Binary Search Tree.
-bool isFullBST(NODE* pRoot);
+bool isFullBST(Node* root);
 
 #endif
