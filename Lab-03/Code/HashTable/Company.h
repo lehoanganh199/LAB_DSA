@@ -5,25 +5,26 @@
 #include <string>
 #include <fstream>
 
-#define FILE_NAME 	"/Users/lehoanganh/Desktop/HoangAnh/SecondYear/HK1/DSA/LAB/Lab-03/Code/HashTable/MST.txt"
-#define SIZE 		2000
+#define FILE_NAME 			"/Users/lehoanganh/Desktop/HoangAnh/SecondYear/HK1/DSA/LAB/Lab-03/Code/HashTable/MST.txt"
+// #define FILE_NAME 			"MST.txt"
+#define SIZE_HASH_TABLE 	2000
 
 using namespace std;
 
 struct Company {
 	string name;
-	string profit_tax;
+	string profitTax;
 	string address;
 };
 
-vector<Company> ReadCompanyList(const string &file_name);
+vector<Company> ReadCompanyList(const string &filename);
 
-long long HashString(const string &company_name);
+long long HashString(const string &companyName);
 
-Company* CreateHashTable(const vector<Company> &list_company);
+Company* CreateHashTable(const vector<Company> &companyList);
 
-void Insert(Company* &hash_table, const Company &company);
+void Insert(Company* &hashTable, const Company &company);
 
-Company* Search(Company* &hash_table, const string &company_name);
+Company* Search(Company* &hashTable, const string &companyName);
 
 #endif

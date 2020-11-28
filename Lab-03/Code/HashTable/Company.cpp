@@ -13,14 +13,14 @@ bool readCompanyInfo(ifstream &fin, Company &company) {
 		return false;
 
 	company.name 		= tokens[0];
-	company.profit_tax 	= tokens[1];
+	company.profitTax 	= tokens[1];
 	company.address 	= tokens[2];
 
 	return true;
 }
 
-vector<Company> ReadCompanyList(const string &file_name) {
-	ifstream fin(file_name);
+vector<Company> ReadCompanyList(const string &filename) {
+	ifstream fin(filename);
 	vector<Company> companyList;
 
 	if (fin) {
@@ -40,20 +40,20 @@ vector<Company> ReadCompanyList(const string &file_name) {
     return companyList;
 }
 
-long long HashString(const string &company_name) {
+long long HashString(const string &companyName) {
     int p = 31;
     int m = 1000000009;
 
-    size_t len = company_name.length();
+    size_t len = companyName.length();
     size_t startIndex = (len > 20) ? (len - 20) : 0;
 
-    unsigned long long hashValue = 0;
-    unsigned long long pPower = 1;
+    long long hashValue = 0;
+    long long pPower = 1;
 
     // (a + b) % c = ((a % c) + (b % c)) % c.
     // (a * b) % c = ((a % c) * (b % c)) % c.
     while (startIndex < len) {
-        hashValue = ((hashValue % m) + (((int)company_name[startIndex] * pPower) % m)) % m;
+        hashValue = ((hashValue % m) + (((int)companyName[startIndex] * pPower) % m)) % m;
         pPower = (pPower * p) % m;
         ++startIndex;
     }
@@ -61,48 +61,38 @@ long long HashString(const string &company_name) {
     return hashValue;
 }
 
-Company* CreateHashTable(const vector<Company> &list_company) {
-	Company* hashTable = new Company[2000];
+Company* CreateHashTable(const vector<Company> &companyList) {
+	Company* hashTable = new Company[SIZE_HASH_TABLE];
 
-	if (hashTable) {
-		for (const Company &company : list_company)
+	if (hashTable)
+		for (const Company &company : companyList)
 			Insert(hashTable, company);
-	}
 
 	return hashTable;
 }
 
-void Insert(Company* &hash_table, const Company &company) {
-	if (hash_table) {
+void Insert(Company* &hashTable, const Company &company) {
+	if (hashTable) {
 		long long hashValue = HashString(company.name);
-		int index = hashValue % SIZE;
-
-		hash_table[index].name       = company.name;
-		hash_table[index].profit_tax = company.profit_tax;
-		hash_table[index].address    = company.address;
+		int index = hashValue % SIZE_HASH_TABLE;
+		hashTable[index] = company;
 	}
 }
 
-Company* Search(Company* &hash_table, const string &company_name) {
+Company* Search(Company* &hashTable, const string &companyName) {
 	Company* company = nullptr;
 
-	if (hash_table) {
-		long long hashValue = HashString(company_name);
-		int index = hashValue % SIZE;
+	if (hashTable) {
+		long long hashValue = HashString(companyName);
+		int index = hashValue % SIZE_HASH_TABLE;
 
-		if (hash_table[index].name == company_name) {
+		if (hashTable[index].name == companyName) {
 			company = new Company;
-			
-			company->name 		= hash_table[index].name;
-			company->profit_tax = hash_table[index].profit_tax;
-			company->address 	= hash_table[index].address;
+
+            if (company)
+                *company = hashTable[index];
 		}
 	}
 
 	return company;
 }
-
-
-
-
-
