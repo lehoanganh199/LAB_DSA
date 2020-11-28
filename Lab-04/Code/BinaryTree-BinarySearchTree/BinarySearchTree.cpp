@@ -1,5 +1,18 @@
 #include "BinarySearchTree.h"
 
+// This function to find an element to replacement the removed element (p).
+// Case: p have two sub-tree.
+void searchToDelete(Node* &p, Node* &q);
+void searchToDelete(Node* &p, Node* &q) {
+    if (q->left)
+        searchToDelete(p, q->left);
+    else {
+        p->key = q->key;
+        p = q;
+        q = q->right;
+    }
+}
+
 // Find and return a Node with given value from a given Binary Search Tree.
 Node* Search(Node* root, int x) {
     while (root) {
@@ -29,7 +42,7 @@ void Insert(Node* &root, int x) {
     }
 
 
-    // Uses for-loop.
+    // Uses loop.
     //    if (root == nullptr) {
     //        root = createNode(x);
     //        return;
@@ -55,16 +68,6 @@ void Insert(Node* &root, int x) {
     //            p = p->right;
     //        }
     //    }
-}
-
-void searchToDelete(Node* &p, Node* &q) {
-    if (q->left)
-        searchToDelete(p, q->left);
-    else {
-        p->key = q->key;
-        p = q;
-        q = q->right;
-    }
 }
 
 // Remove a Node with given value from a given Binary Search Tree.

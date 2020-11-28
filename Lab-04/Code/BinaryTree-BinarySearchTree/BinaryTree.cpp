@@ -126,16 +126,16 @@ int heightNode(Node* root, int value) {
 }
 
 // Calculate the level of a given Node.
-int Level(Node* root, Node* p) {
+int LevelOfNode(Node* root, Node* p) {
 	if (p == nullptr || Search(root, p->key) == nullptr)
         return -1;
 
     if (root->key == p->key)
         return 0;
     if (root->key > p->key)
-        return 1 + Level(root->left, p);
+        return 1 + LevelOfNode(root->left, p);
     else
-        return 1 + Level(root->right, p);
+        return 1 + LevelOfNode(root->right, p);
 }
 
 // Count the number leaves from a given Binary Tree.

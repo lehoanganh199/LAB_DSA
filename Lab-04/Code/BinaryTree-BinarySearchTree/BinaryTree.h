@@ -42,7 +42,7 @@ int sumNode(Node* root);
 int heightNode(Node* root, int value);
 
 // Calculate the level of a given Node.
-int Level(Node* root, Node* p);
+int LevelOfNode(Node* root, Node* p);
 
 // Count the number leaves from a given Binary Tree.
 int countLeaf(Node* root);
