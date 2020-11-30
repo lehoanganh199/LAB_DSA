@@ -1,9 +1,9 @@
 #include "DoublyLinkedList.h"
 
-d_NODE* createNode(int value) {
-    d_NODE* node = new d_NODE;
+Node* createNode(int value) {
+    Node* node = new Node;
 
-    if (node != nullptr) {
+    if (node) {
         node->key = value;
         node->pNext = nullptr;
         node->pPrev = nullptr;
@@ -12,52 +12,35 @@ d_NODE* createNode(int value) {
     return node;
 }
 
-d_List* createList(int value) {
-    d_List* dList = new d_List;
+DList* createList(int value) {
+    DList* dList = new DList;
 
-    if (dList != nullptr) {
-        d_NODE* node = createNode(value);
+    if (dList) {
+        Node* node = createNode(value);
         dList->pHead = dList->pTail = node;
     }
 
     return dList;
 }
 
-bool isEmpty(d_List* dList) {
+bool isEmpty(DList* dList) {
     return dList == nullptr || dList->pHead == nullptr;
 }
 
-bool addHead(d_List* &dList, int value) {
-    // if (isEmpty(dList)) {
-    //     dList = createList(value);
-    //     if (isEmpty(dList))
-    //         return false;
-    // } else {
-    //     d_NODE* node = createNode(value);
-    //     if (node == nullptr)
-    //         return false;
-
-    //     node->pNext = dList->pHead;
-    //     dList->pHead->pPrev = node;
-    //     dList->pHead = node;
-    // }
-
-    // return true;
-
-
+bool addHead(DList* &dList, int value) {
     if (dList == nullptr) {
-        dList = new d_List;
+        dList = new DList;
         if (dList == nullptr)
             return false;
     }
 
-    d_NODE* node = createNode(value);
+    Node* node = createNode(value);
     if (node == nullptr)
         return false;
 
     node->pNext = dList->pHead;
 
-    if (dList->pHead != nullptr)
+    if (dList->pHead)
         dList->pHead->pPrev = node;
 
     dList->pHead = node;
@@ -65,15 +48,15 @@ bool addHead(d_List* &dList, int value) {
     return true;
 }
 
-bool insertBefore(d_List* &dList, d_NODE* &node, int value) {
+bool insertBefore(DList* &dList, Node* &node, int value) {
     if (node == nullptr)
         return false;
 
-    d_NODE* p = createNode(value);
+    Node* p = createNode(value);
     if (p == nullptr)
         return false;
 
-    d_NODE* prev = node->pPrev;
+    Node* prev = node->pPrev;
 
     p->pNext = node;
     node->pPrev = p;
@@ -88,15 +71,15 @@ bool insertBefore(d_List* &dList, d_NODE* &node, int value) {
     return true;
 }
 
-bool insertAfter(d_List* &dList, d_NODE* &node, int value) {
+bool insertAfter(DList* &dList, Node* &node, int value) {
     if (node == nullptr)
         return false;
 
-    d_NODE* p = createNode(value);
+    Node* p = createNode(value);
     if (p == nullptr)
         return false;
 
-    d_NODE* next = node->pNext;
+    Node* next = node->pNext;
 
     p->pPrev = node;
     node->pNext = p;
@@ -111,37 +94,20 @@ bool insertAfter(d_List* &dList, d_NODE* &node, int value) {
     return true;
 }
 
-bool addTail(d_List* &dList, int value) {
-    // if (isEmpty(dList)) {
-    //     dList = createList(value);
-    //     if (isEmpty(dList))
-    //         return false;
-    // } else {
-    //     d_NODE* node = createNode(value);
-    //     if (node == nullptr)
-    //         return false;
-
-    //     node->pPrev = dList->pTail;
-    //     dList->pTail->pNext = node;
-    //     dList->pTail = node;
-    // }
-
-    // return true;
-
-
+bool addTail(DList* &dList, int value) {
     if (dList == nullptr) {
-        dList = new d_List;
+        dList = new DList;
         if (dList == nullptr)
             return false;
     }
 
-    d_NODE* node = createNode(value);
+    Node* node = createNode(value);
     if (node == nullptr)
         return false;
 
     node->pPrev = dList->pTail;
 
-    if (dList->pTail != nullptr)
+    if (dList->pTail)
         dList->pTail->pNext = node;
 
     dList->pTail = node;
@@ -149,11 +115,11 @@ bool addTail(d_List* &dList, int value) {
     return true;
 }
 
-void removeHead(d_List* &dList) {
+void removeHead(DList* &dList) {
     if (isEmpty(dList))
         return;
 
-    d_NODE* p = dList->pHead;
+    Node* p = dList->pHead;
     dList->pHead = dList->pHead->pNext;
 
     if (dList->pHead == nullptr)
@@ -164,11 +130,11 @@ void removeHead(d_List* &dList) {
     delete p;
 }
 
-void removeTail(d_List* &dList) {
+void removeTail(DList* &dList) {
     if (isEmpty(dList))
         return;
 
-    d_NODE* p = dList->pTail;
+    Node* p = dList->pTail;
     dList->pTail = dList->pTail->pPrev;
 
     if (dList->pTail == nullptr)
@@ -179,17 +145,17 @@ void removeTail(d_List* &dList) {
     delete p;
 }
 
-void removeFirstValue(d_List* &dList, int value) {
+void removeFirstValue(DList* &dList, int value) {
     if (isEmpty(dList))
         return;
 
-    d_NODE* p = dList->pHead;
-    while (p != nullptr && p->key != value)
+    Node* p = dList->pHead;
+    while (p && p->key != value)
         p = p->pNext;
 
-    if (p != nullptr) {
-        d_NODE* prev = p->pPrev;
-        d_NODE* next = p->pNext;
+    if (p) {
+        Node* prev = p->pPrev;
+        Node* next = p->pNext;
 
         if (prev == nullptr) // p is head.
             removeHead(dList);
@@ -203,12 +169,12 @@ void removeFirstValue(d_List* &dList, int value) {
     }
 }
 
-void removeAll(d_List* &dList) {
-    if (dList != nullptr) {
-        if (dList->pHead != nullptr) {
-            d_NODE* p = dList->pHead;
+void removeAll(DList* &dList) {
+    if (dList) {
+        if (dList->pHead) {
+            Node* p = dList->pHead;
 
-            while (dList->pHead != nullptr) {
+            while (dList->pHead) {
                 dList->pHead = dList->pHead->pNext;
                 delete p;
                 p = dList->pHead;

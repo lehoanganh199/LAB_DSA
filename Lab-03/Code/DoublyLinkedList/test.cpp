@@ -3,9 +3,9 @@
 
 using namespace std;
 
-void printList(d_List* dList) {
+void printList(DList* dList) {
     if (!isEmpty(dList)) {
-        for (d_NODE* p = dList->pHead; p; p = p->pNext)
+        for (Node* p = dList->pHead; p; p = p->pNext)
             cout << p->key << " ";
         cout << endl;
     } else {
@@ -14,7 +14,7 @@ void printList(d_List* dList) {
 }
 
 int main() {
-    d_List* dList = nullptr;
+    DList* dList = nullptr;
     printList(dList);
     dList = createList(19);
     printList(dList);
