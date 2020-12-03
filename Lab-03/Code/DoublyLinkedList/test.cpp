@@ -13,6 +13,16 @@ void printList(DList* dList) {
     } 
 }
 
+void printReverseList(DList* dList) {
+    if (!isEmpty(dList)) {
+        for (Node* p = dList->pTail; p; p = p->pPrev)
+            cout << p->key << " ";
+        cout << endl;
+    } else {
+        cout << "empty" << endl;
+    }
+}
+
 int main() {
     DList* dList = nullptr;
     printList(dList);

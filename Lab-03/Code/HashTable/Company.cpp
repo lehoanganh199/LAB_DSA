@@ -1,6 +1,21 @@
 #include "Company.h"
 #include "Tokenizer.h"
 
+int LinearProbing(Company* hashTable, const string &companyName) {
+	if (hashTable) {
+		long long hashValue = HashString(companyName);
+		int i = hashValue % SIZE_HASH_TABLE;
+		int count = 0;
+
+		while (!hashTable[i].name.empty() && count < SIZE_HASH_TABLE) {
+			++count;
+			i = (i + 1) % SIZE_HASH_TABLE;
+		}
+	}
+
+	return -1;
+}
+
 bool readCompanyInfo(ifstream &fin, Company &company) {
 	string data;
 	getline(fin, data);
@@ -73,9 +88,9 @@ Company* CreateHashTable(const vector<Company> &companyList) {
 
 void Insert(Company* &hashTable, const Company &company) {
 	if (hashTable) {
-		long long hashValue = HashString(company.name);
-		int index = hashValue % SIZE_HASH_TABLE;
-		hashTable[index] = company;
+		int index = LinearProbing(hashTable, company.name);
+		if (index != -1) 
+			hashTable[index] = company;
 	}
 }
 
@@ -83,10 +98,9 @@ Company* Search(Company* &hashTable, const string &companyName) {
 	Company* company = nullptr;
 
 	if (hashTable) {
-		long long hashValue = HashString(companyName);
-		int index = hashValue % SIZE_HASH_TABLE;
+		int index = LinearProbing(hashTable, company.name);
 
-		if (hashTable[index].name == companyName) {
+		if (index != -1) {
 			company = new Company;
 
             if (company)
