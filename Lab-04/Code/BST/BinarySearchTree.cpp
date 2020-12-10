@@ -100,7 +100,7 @@ Node* createTree(int a[], int n) {
     Node* root = nullptr;
 
     for (int i = 0; i < n; i++)
-    Insert(root, a[i]);
+        Insert(root, a[i]);
 
     return root;
 }
