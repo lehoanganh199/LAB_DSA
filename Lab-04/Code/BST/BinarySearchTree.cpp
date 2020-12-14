@@ -154,21 +154,13 @@ bool isBST(Node* root) {
             return true;
 
         int key = root->key;
-
-        if (left == nullptr) {
-            if (key >= right->key)
-                return false;
-            return isBST(right);
-        }
-        if (right == nullptr) {
-            if (key <= left->key)
-                return false;
-            return isBST(left);
-        }
-
-
+        if (left == nullptr) 
+            return key >= right->key ? false : isBST(right);
+        if (right == nullptr)
+            return key <= right->key ? false : isBST(left);
         if (key <= left->key || key >= right->key)
             return false;
+
         return isBST(left) && isBST(right);
     }
 

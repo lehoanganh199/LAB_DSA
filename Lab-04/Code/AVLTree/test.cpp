@@ -61,26 +61,35 @@ int main() {
 //    Insert(root, 451);
 //    Insert(root, 600);
 
+//    cout << "Before:"<< endl;
+//    cout << "Pre-order traversal: ";
+//    NLR(root);
+//    cout << endl;
+
 //    if (isAVL(root)) {
 //        Case 1:
 //        Remove(root, 367);
+//        cout << "After:" << endl;
 //        cout << "Pre-order traversal: ";
 //        NLR(root);
 //        cout << endl;
 //
 //        Case 2:
 //        Remove(root, 765);
+//        cout << "After:" << endl;
 //        cout << "Pre-order traversal: ";
 //        NLR(root);
 //        cout << endl;
 //
 //        Case 3:
 //        Remove(root, 123);
+//        cout << "After remove 123:" << endl;
 //        cout << "Pre-order traversal: ";
 //        NLR(root);
 //        cout << endl;
 //
 //        Remove(root, 765);
+//        cout << "After remove 765:" << endl;
 //        cout << "Pre-order traversal: ";
 //        NLR(root);
 //        cout << endl;

@@ -208,9 +208,9 @@ bool isAVL(Node* root) {
 
     int key = root->key;
     if (left == nullptr)
-        return key <= right->key;
+        return key < right->key;
     if (right == nullptr)
-        return key >= left->key;
+        return key > left->key;
     if (key <= left->key || key >= right->key)
         return false;
 
