@@ -136,7 +136,7 @@ int countGreater(Node* root, int x) {
             return (root->key > x ? 1 : 0) + countNode(root->left);
 
         if (root->key < x)
-            return countLess(root->right, x);
+            return countGreater(root->right, x);
     }
 
     return 0;

@@ -52,7 +52,7 @@ void MergeSortImp(int a[], int left, int right) {
 
 void shift(int a[], int left, int right) {
     int i = left;
-    int j = 2 * i;
+    int j = (2 * i) + 1;
     int x = a[i];
 
     while (j <= right) {
@@ -64,14 +64,14 @@ void shift(int a[], int left, int right) {
         
         a[i] = a[j];
         i = j;
-        j = 2 * i;
+        j = (2 * i) + 1;
     }
 
     a[i] = x;
 }
 
 void createHeap(int a[], int n) {
-    int i = n / 2;
+    int i = (n / 2) - 1;
 
     while (i >= 0) {
         shift(a, i, n - 1);

@@ -77,9 +77,7 @@ void removeImp(Node* &root, int x, bool &removeSuccessful) {
         if (root->key == x) {
             Node* p = root;
 
-            if (root->left == nullptr && root->right == nullptr)
-                root = nullptr;
-            else if (root->left == nullptr)
+            if (root->left == nullptr)
                 root = root->right;
             else if (root->right == nullptr)
                 root = root->left;
